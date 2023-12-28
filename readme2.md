@@ -52,3 +52,50 @@ https://assets.datacamp.com/production/repositories/6082/datasets/31a5052c6a5424
  && unzip <dest>.zip //file \
  && rm <dest>.zip 
 ```
+
+```
+/* this is a startup command */
+ CMD  <SHELL COMMAND> 
+/* this runs when image starts */
+/* if you write multiple cmd commands only the last one will run */
+ 
+/*it will stop after cmd is done running or when it crashes*/
+
+/* start command can be overwritten*/
+docker run <image> <shell-command>
+
+```
+/* when making a docker image for second time it will CASH the commands what are not changed and use them for making the image
+to make it efficent get packages before instruction like copy*/
+
+```
+ /*FROM RUN and COPY effect the file system*/
+ WORKIDR /* changes the working directory instructions are executed in*/
+ USER /* changes which user is executing the following instructions.*/
+```
+/*USER PERMISSIONS*/
+/* use root user to create new users with permissions specified and then stop using root*/
+```
+USER <username> //wil change the user
+```
+/* Variables  */
+LIKE ENV VARIABLES OR ALIAS
+/* THIS IS ONLY FOR BUILDING IMAGES USED FOR PATH VARIABLES AND VERSION VARIABLES */
+```
+  ARG <VARIABLE NAME>= <VALUE>
+```
+EDITITING THE VARIABLE THROUGH FLAGS
+```
+docker build --build-arg project_folder=/repl/pipeline
+```
+/* CAN BE USED IN CONTAINER */
+```
+  ENV <VARIABLE NAME>= <VALUE>
+
+  ENV MODE production
+  docker run --env <key>=<value> <image-name>
+```
+
+/* docker security */
+/* use image from trusted sources */
+/* intstall only required software in the container */
