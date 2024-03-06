@@ -1,0 +1,21 @@
+# This Dockerfile is for demonstration purposes only and is not recommended for production use.
+
+FROM debian:bullseye
+
+# Update package lists and install nginx
+RUN apt-get update && \
+    apt-get install -y mariadb-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+RUN systemctl enable mariadb
+RUN systemctl start mariadb
+RUN systemctl status mariadb
+
+RUN MKDIR /var/www/html
+
+
+
+
+ENTRYPOINT ["/bin/bash"]
