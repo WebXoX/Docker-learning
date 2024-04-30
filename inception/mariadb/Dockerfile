@@ -8,7 +8,7 @@ USER mysql
 # RUN rm /tmp/maria_init.sql  # Remove temporary initialization script
 
 EXPOSE 3306
-# CMD ["/usr/bin/mysqld", "--skip-log-error"]
+CMD ["/usr/bin/mysqld", "--skip-log-error"]
 
 # https://wiki.alpinelinux.org/wiki/MariaDB
 # mkdir -p /run/mysqld
