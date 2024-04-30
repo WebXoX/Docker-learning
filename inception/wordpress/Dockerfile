@@ -1,4 +1,4 @@
-FROM alpine:3.18.5
+FROM alpine:3.18
 RUN apk update  
 RUN apk add --no-cache php php-fpm php-mysqli  php-curl curl  openrc 
 RUN mkdir -p /var/www/
@@ -14,4 +14,4 @@ RUN wp user create "$WP_USER" "$WP_USER_EMAIL" --role=subscriber --user_pass="$W
 EXPOSE 80
 
 # RUN php-fpm81 -FR
-CMD ["php-fpm81" ,"-FR"]
+CMD ["php-fpm" ,"-FR"]
