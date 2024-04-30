@@ -11,20 +11,17 @@ services:
             ports:
                 -"9000:9000"
             volumes:
-            environment:
-                WORDPRESS_DB_HOST: "${WORDPRESS_DB_HOST}"
-                WORDPRESS_DB_USER: "${WORDPRESS_DB_USER}"
-                WORDPRESS_DB_PASSWORD: "${WORDPRESS_DB_PASSWORD}"
-                WORDPRESS_DB_NAME: "${WORDPRESS_DB_NAME}"
+            env_fie:
+                - .env
 
     mariadb:
             build: ./mariadb/dockerfile
-            environment:
-                MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-                MYSQL_DATABASE: "${MYSQL_DATABASE}"
-                MYSQL_USER: "${MYSQL_DATABASE}"
-                MYSQL_PASSWORD: "${MYSQL_DATABASE}"
+            env_fie:
+                - .env
             ports:
                   -"3306:3306"
             volumes:        
+
+    network:
+            driver: bridge
 

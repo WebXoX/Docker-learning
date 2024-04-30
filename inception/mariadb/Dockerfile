@@ -3,7 +3,6 @@ RUN apk update && apk add openrc && apk add mysql mysql-client mariadb-server-ut
 RUN mkdir -p /var/lib/mysql/data
 RUN chown -R mysql:mysql /var/lib/mysql/data
 USER mysql
-RUN echo "CREATE USER 'your_db_user'@'%' IDENTIFIED BY 'your_strong_password'; CREATE DATABASE your_database;" > /tmp/maria_init.sql
 
 # RUN mysqld --initialize-insecure --user=root --basedir=/usr/bin/mysql --datadir=/var/lib/mysql/data < /tmp/maria_init.sql
 # RUN rm /tmp/maria_init.sql  # Remove temporary initialization script
