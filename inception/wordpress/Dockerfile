@@ -2,7 +2,7 @@ FROM alpine:3.18
 RUN apk update  
 RUN apk add --no-cache php php-fpm php-mysqli  php-curl curl  openrc 
 RUN mkdir -p /var/www/
-COPY .././env  ~/
+# COPY .././env  ~/
 RUN curl -L https://wordpress.org/latest.tar.gz | tar -xzf - --directory /var/www/
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
@@ -13,5 +13,4 @@ RUN wp user create "$WP_USER" "$WP_USER_EMAIL" --role=subscriber --user_pass="$W
 
 EXPOSE 80
 
-# RUN php-fpm81 -FR
 CMD ["php-fpm" ,"-FR"]

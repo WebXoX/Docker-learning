@@ -1,37 +1,42 @@
-version: '3.1'
+version: '3.5'
 
 services:
 
     # nginx:
     #         build: ./nginx/dockerfile
+    #         restart: always
     #         ports:
     #             -"443:443"
     #         volumes:
     #              - wordpress_data:/var/www/html
     
     wordpress:
-            build: ./wordpress/dockerfile
+            build: ./wordpress/
             restart: always
-            ports:
-                -"8080:80"
             volumes:
                 - wordpress_data:/var/www/html
-            env_fie:
-                - .env
-            secrets:
-                - wordpress_db_password
-
-    mariadb:
-            build: ./mariadb/dockerfile
-            env_fie:
-                - .env
             ports:
-                  -"3306:3306"
-            volumes:
-                - mariadb_data:/var/lib/mysql       
+                - 80:80
+            # secrets:
+            #     - wordpress_db_password
+            environment: 
+                - .env  
 
-    # network:
-    #         driver: bridge
+    # mariadb:
+    #         build: ./mariadb/dockerfile
+    #         restart: always
+    #         env_fie:
+    #             - .env
+    #         ports:
+    #               -3306:3306
+    #         volumes:
+    #             - mariadb_data:/var/lib/mysql
+
+# network:
+#         driver: bridge
 volumes:
     wordpress_data:
-    mariadb_data:
+        driver: local
+#     mariadb_data:
+#         driver: local
+
