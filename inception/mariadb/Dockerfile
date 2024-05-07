@@ -4,12 +4,12 @@ RUN mkdir -p /var/lib/mysql/data
 RUN chown -R mysql:mysql /var/lib/mysql/data
 USER mysql
 
-# RUN mysqld --initialize-insecure --user=root --basedir=/usr/bin/mysql --datadir=/var/lib/mysql/data < /tmp/maria_init.sql
-# RUN rm /tmp/maria_init.sql  # Remove temporary initialization script
 
 EXPOSE 3306
-# CMD ["/usr/bin/mysqld", "--skip-log-error"]
+CMD ["/usr/bin/mysqld", "--skip-log-error"]
 
+# RUN mysqld --initialize-insecure --user=root --basedir=/usr/bin/mysql --datadir=/var/lib/mysql/data < /tmp/maria_init.sql
+# RUN rm /tmp/maria_init.sql  # Remove temporary initialization script
 # https://wiki.alpinelinux.org/wiki/MariaDB
 # mkdir -p /run/mysqld
 # mysqld -u root --data=./data &> /dev/null &

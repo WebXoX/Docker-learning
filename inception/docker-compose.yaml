@@ -45,32 +45,30 @@
 #         o: bind  # Use bind mount functionality
 #         device: ${HOME}/data/mysql  # Separate path for MariaDB data (recommended)
 
-version: '3.5'
+version: '3'
 
 services:
-
   mariadb:
     build: ./mariadb/
     restart: always
-    environment: 
-      - .env  # Or define specific variables here for MariaDB
+    env_file:
+      - .env
     ports:
       - 3306:3306
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb_data:/var/lib/
 
   wordpress:
     build: ./wordpress/
-    # depends_on: mariadb
-    restart: always
+    depends_on:
+      - mariadb
     volumes:
-      - wordpress_data:/var/www/html
-    ports:
-      - 80:80
-    # secrets:
-    #   - wordpress_db_password  # Uncomment if needed
-    environment:  
-      - .env  # Assuming .env has variables for both services
+      - wordpress_data:/var/www/
+    networks:
+      - inception
+    env_file:
+      - .env
+    restart: always
 networks:
   inception:
     driver: bridge  # Define network only once
