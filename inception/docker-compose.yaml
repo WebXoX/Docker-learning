@@ -56,12 +56,16 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - mariadb_data:/var/lib/
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - inception
 
   wordpress:
     build: ./wordpress/
     depends_on:
       - mariadb
+    ports:
+      - 9000:9000
     volumes:
       - wordpress_data:/var/www/
     networks:
