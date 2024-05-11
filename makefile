@@ -1,5 +1,5 @@
 command to run compose file
-docker-compose -f docker-compose.yaml up -d
+docker-compose -f docker-compose.yaml build && docker-compose -f docker-compose.yaml up -d
 docker build . -t try \
   -e DOMAIN_NAME=your_domain.com \
   -e TITLE="Your WordPress Site Title" \
@@ -18,3 +18,5 @@ docker build . -t try \
   -e WP_USER=joe \
   -e WP_USER_EMAIL=jperinch.42.fr \
   -e WP_USER_PASS=2
+
+arg=$(docker ps | grep inception-mariadb | awk '{print $1}') ; docker logs $arg

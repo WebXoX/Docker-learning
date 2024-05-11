@@ -6,17 +6,18 @@ ENV MYSQL_DATABASE=wordpressdb
 ENV MYSQL_USER=user
 ENV MYSQL_PASSWORD=42ABd
 ENV MYSQL_ROOT_PASSWORD=42ABdadmin
+    
 EXPOSE 3306
-ADD setup.sh .
-RUN mkdir -p /var/lib/mysql
-RUN chown -R mysql:mysql /var/lib/mysql  # Set ownership and permissions
-RUN chmod -R 755 setup.sh
-RUN sh setup.sh
-RUN rm setup.sh
+ADD setup.sh /scripts/setup.sh
+RUN mkdir /docker-entrypoint-initdb.d && \
+    mkdir /scripts/pre-exec.d && \
+    mkdir /scripts/pre-init.d && \
+    chmod -R 755 /scripts
 
+# USER mysql
 
-USER mysql
-CMD ["/usr/bin/mysqld", "--skip-log-error"]
+CMD ["/scripts/setup.sh"]
+# CMD ["/usr/bin/mysqld", "--skip-log-error"]
 
 # RUN mysqld --initialize-insecure --user=root --basedir=/usr/bin/mysql --datadir=/var/lib/mysql/data < /tmp/maria_init.sql
 # RUN rm /tmp/maria_init.sql  # Remove temporary initialization script
