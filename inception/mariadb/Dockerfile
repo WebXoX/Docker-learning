@@ -1,24 +1,39 @@
+# FROM alpine:3.18
+
+# # Install necessary packages
+# RUN apk update && \
+#     apk add mariadb mariadb-client mariadb-server-utils
+
+# # Expose the MySQL port
+# EXPOSE 3306
+
+# # Add and configure the setup script
+# ADD setup.sh /scripts/setup.sh
+# RUN chmod +x /scripts/setup.sh
+
+# # Run setup script and change to mysql user
+# RUN /scripts/setup.sh
+
+# USER mysql
+
+# # Command to run MariaDB
+# CMD ["/usr/bin/mysqld", "--skip-log-error"]
+
+# # https://wiki.alpinelinux.org/wiki/MariaDB
+
+
 FROM alpine:3.18
-RUN apk update \
-    &&  apk add mariadb \
-    mariadb-client mariadb-server-utils 
 
-    
+
+
+RUN apk update && apk add --no-cache mariadb mariadb-client
+
 EXPOSE 3306
-ADD setup.sh /scripts/setup.sh
-RUN mkdir /docker-entrypoint-initdb.d && \
-    mkdir /scripts/pre-exec.d && \
-    mkdir /scripts/pre-init.d && \
-    chmod -R 755 /scripts 
-RUN ./scripts/setup.sh
 
-# CMD [ "/scripts/setup.sh"]
+COPY ./setup.sh .
+
+RUN sh setup.sh && rm setup.sh
+
 USER mysql
-CMD ["/usr/bin/mysqld", "--skip-log-error"]
 
-# RUN mysqld --initialize-insecure --user=root --basedir=/usr/bin/mysql --datadir=/var/lib/mysql/data < /tmp/maria_init.sql
-# RUN rm /tmp/maria_init.sql  # Remove temporary initialization script
-# https://wiki.alpinelinux.org/wiki/MariaDB
-# mkdir -p /run/mysqld
-# mysqld -u root --data=./data &> /dev/null &
-# mysql_install_db
+CMD ["/usr/bin/mysqld", "--skip-log-error"]

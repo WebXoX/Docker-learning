@@ -67,7 +67,7 @@ services:
     ports:
       - 9000:9000
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress_data:/var/www/
     networks:
       - inception
     env_file:
@@ -84,7 +84,7 @@ services:
     networks:
       - inception
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress_data:/var/www/
 networks:
   inception:
     driver: bridge  # Define network only once
@@ -97,3 +97,63 @@ volumes:
   mariadb_data:
     # o: bind  # Use bind mount functionality
     # device: ${HOME}/data/mysql  # Separate path for MariaDB data (recommended)
+
+
+# version: '3'
+
+# services:
+#   nginx:
+#     build: ./nginx
+#     ports:
+#       - "443:443"
+#     depends_on:
+#       - wordpress
+#     networks:
+#       - inception
+#     volumes:
+#       - wordpress_data:/var/www/
+#     restart: always
+#     env_file:
+#       - .env
+
+#   mariadb:
+#     build: ./mariadb
+#     env_file:
+#       - .env
+#     container_name: mariadb
+#     ports:
+#       - "3306:3306"
+#     networks:
+#       - inception
+#     volumes:
+#       - mariadb_data:/var/lib/mysql
+#     restart: always
+
+#   wordpress:
+#     build: ./wordpress
+#     depends_on:
+#       - mariadb
+#     networks:
+#       - inception
+#     volumes:
+#       - wordpress_data:/var/www/
+#     restart: always
+#     env_file:
+#       - .env
+
+# volumes:
+#   wordpress_data:
+#     # driver_opts:
+#     #   o: bind
+#     #   type: none
+#     #   device: ${HOME}/data/wordpress
+
+#   mariadb_data:
+#     # driver_opts:
+#     #   o: bind
+#     #   type: none
+#     #   device: ${HOME}/data/mariadb
+
+# networks:
+#     inception:
+#         driver: bridge
