@@ -6,10 +6,9 @@ RUN apk add --no-cache mariadb mariadb-client \
 RUN mkdir -p /docker-entrypoint-initdb.d && \
     mkdir -p /scripts/pre-exec.d && \
     mkdir -p /scripts/pre-init.d  && \
-    chmod -R 755 /scripts
-    #  && \
-    # sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf && \
-    # sed -i "s|.*skip-networking.*|skip-networking|g" /etc/my.cnf.d/mariadb-server.cnf
+    chmod -R 755 /scripts && \
+    sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf && \
+    sed -i "s|.*skip-networking.*|skip-networking|g" /etc/my.cnf.d/mariadb-server.cnf
 
 ADD ./tools/setup.sh /scripts/setup.sh
 RUN chmod +x /scripts/setup.sh

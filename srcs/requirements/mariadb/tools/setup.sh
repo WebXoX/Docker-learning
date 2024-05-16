@@ -41,22 +41,22 @@ SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}') ;
 DROP DATABASE IF EXISTS test ;
 FLUSH PRIVILEGES ;
 EOF
-	if [ "$MYSQL_DATABASE" != "" ]; then
-	    echo "[i] Creating database: $MYSQL_DATABASE"
+	if [ "$DB_NAME" != "" ]; then
+	    echo "[i] Creating database: $DB_NAME"
 		echo "[i] with character set: 'utf8' and collation: 'utf8_general_ci'"
-		echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tfile
-		if [ "$MYSQL_USER" != "" ]; then
-			echo "[i] Creating user: $MYSQL_USER with password $MYSQL_PASSWORD"
-			echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* to '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
+		echo "CREATE DATABASE IF NOT EXISTS \`$DB_NAME\` CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tfile
+		if [ "$DB_USER" != "" ]; then
+			echo "[i] Creating user: $DB_USER with password $DB_PASS"
+			echo "GRANT ALL ON \`$DB_NAME\`.* to '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';" >> $tfile
 		fi
 	fi
 
 	/usr/bin/mysqld --user=mysql --bootstrap --verbose=0 --skip-name-resolve --skip-networking=0 < $tfile
 	rm -f $tfile
 
-    # only run if we have a starting MYSQL_DATABASE env variable AND
+    # only run if we have a starting DB_NAME env variable AND
     # the /docker-entrypoint-initdb.d/ file is not empty
-	if [ "$MYSQL_DATABASE" != "" ] && [ "$(ls -A /docker-entrypoint-initdb.d 2>/dev/null)" ]; then
+	if [ "$DB_NAME" != "" ] && [ "$(ls -A /docker-entrypoint-initdb.d 2>/dev/null)" ]; then
 
 		# start the server temporarily so that we can import seed files
         echo
@@ -72,7 +72,7 @@ EOF
 		done
 
 		# use mysql client to import seed files while temp db is running
-		# use the starting MYSQL_DATABASE so mysql knows where to import
+		# use the starting DB_NAME so mysql knows where to import
 		MYSQL_CLIENT="/usr/bin/mysql -u root -p$MYSQL_ROOT_PASSWORD"
 		
         # loop through all the files in the seed directory
@@ -80,8 +80,8 @@ EOF
         # pipe (|) the output of using `gunzip -c` on .sql.gz files
 		for f in /docker-entrypoint-initdb.d/*; do
 			case "$f" in
-				*.sql)    echo "  $0: running $f"; eval "${MYSQL_CLIENT} ${MYSQL_DATABASE} < $f"; echo ;;
-				*.sql.gz) echo "  $0: running $f"; gunzip -c "$f" | eval "${MYSQL_CLIENT} ${MYSQL_DATABASE}"; echo ;;
+				*.sql)    echo "  $0: running $f"; eval "${MYSQL_CLIENT} ${DB_NAME} < $f"; echo ;;
+				*.sql.gz) echo "  $0: running $f"; gunzip -c "$f" | eval "${MYSQL_CLIENT} ${DB_NAME}"; echo ;;
 			esac
 		done
 
