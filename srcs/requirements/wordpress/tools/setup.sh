@@ -7,5 +7,7 @@ if [ ! -f ./wp-config.php ]; then
     sed -i "s|localhost|mariadb|g" ./wp-config.php
 fi
 
-wp core install --url=${DOMAIN_NAME} --title=${TITLE} --admin_user=${ADM_USER} --admin_password=${ADM_PASS} --admin_email=${ADM_EMAIL} --skip-email --allow-root
-wp user create ${WP_USER} ${WP_USER_EMAIL} --allow-root --role=subscriber --user_pass=${WP_USER_PASS}
+# wp core install --url=${DOMAIN_NAME} --title=${TITLE} --admin_user=${ADM_USER} --admin_password=${ADM_PASS} --admin_email=${ADM_EMAIL} --skip-email --allow-root
+# wp user create ${WP_USER} ${WP_USER_EMAIL} --allow-root --role=subscriber --user_pass=${WP_USER_PASS}
+wp core install  --url="$DOMAIN_NAME" --title="$TITLE" --admin_user="$ADM_USER" --admin_password="$ADM_PASS" --admin_email="$ADM_EMAIL"
+wp user create "$WP_USER" "$WP_USER_EMAIL" --role=subscriber --user_pass="$WP_USER_PASS" 

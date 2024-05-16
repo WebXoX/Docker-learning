@@ -3,6 +3,5 @@ RUN apk update  && \
 		apk add --no-cache nginx 
 ADD ./conf.d/ /etc/nginx/http.d/
 EXPOSE 443
-ADD ./index.html /usr/share/nginx/html/
 # CMD ["BASH"]
 CMD ["nginx", "-g", "daemon off;"]

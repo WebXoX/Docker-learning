@@ -13,7 +13,7 @@ $(VOLUME):
 
 build:	
 	@printf "$(BLUE)BUILDING$(RESET):\r\t\t\t\t\t\n"
-	@docker-compose -f  ./srcs/docker-compose.yml  build --no-cache --pull 
+	@docker-compose -f  ./srcs/docker-compose.yml  build --pull 
 
 up:
 	@printf "$(GREEN)RUNNING$(RESET):\r\t\t\t\t\t\n"

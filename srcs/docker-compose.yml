@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mariadb:
-    build: ./mariadb/
+    build: ./requirements/mariadb/
     restart: always
     env_file:
       - .env
@@ -14,7 +14,7 @@ services:
       - inception
 
   wordpress:
-    build: ./wordpress/
+    build: ./requirements/wordpress/
     depends_on:
       - mariadb
     ports:
@@ -27,7 +27,7 @@ services:
       - .env
     restart: always
   nginx:
-    build: ./nginx
+    build: ./requirements/nginx
     depends_on:
       - wordpress
     restart: always
@@ -43,9 +43,9 @@ networks:
 
 volumes:
   wordpress_data:
-    o: bind  # Use bind mount functionality
-    device: ${HOME}/data/wordpress  # Path on the host for WordPress data
+      # o: bind  # Use bind mount functionality
+      # device: ${HOME}/data/wordpress  # Path on the host for WordPress data
 
   mariadb_data:
-    o: bind  # Use bind mount functionality
-    device: ${HOME}/data/mysql  # Separate path for MariaDB data (recommended)
+      # o: bind  # Use bind mount functionality
+      # device: ${HOME}/data/mysql  # Separate path for MariaDB data (recommended)
