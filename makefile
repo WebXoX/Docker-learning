@@ -19,6 +19,9 @@ docker build . -t try \
   -e WP_USER_EMAIL=jperinch.42.fr \
   -e WP_USER_PASS=2
 
-arg=$(docker ps | grep inception-mariadb | awk '{print $1}') ; docker logs $arg
+arg=$(docker ps | grep inception-mariadb | awk '{print $1}') ; docker exec -it $arg /bin/sh
+arg=$(docker ps | grep inception-nginx | awk '{print $1}') ; docker exec -it $arg /bin/sh
+arg=$(docker ps | grep inception-wordpress | awk '{print $1}') ; docker exec -it $arg /bin/sh
 arg=$(docker ps | grep inception-wordpress | awk '{print $1}') ; docker logs $arg
+arg=$(docker ps | grep inception-mariadb | awk '{print $1}') ; docker logs $arg
 arg=$(docker ps | grep inception-nginx | awk '{print $1}') ; docker logs $arg

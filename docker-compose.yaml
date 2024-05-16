@@ -6,7 +6,7 @@ services:
     image: wordpress
     restart: always
     ports:
-      - 8080:80
+      - 9000:9000
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: exampleuser
