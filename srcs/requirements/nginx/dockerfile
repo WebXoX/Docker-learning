@@ -6,7 +6,7 @@ ADD requirements/nginx/tools/setup.sh .
 RUN chmod +x setup.sh
 
 EXPOSE 443
+RUN ./setup.sh
 
 # CMD ["BASH"]
-# CMD ["nginx", "-g", "daemon off;"]
-CMD ["./setup.sh"]
+CMD ["nginx", "-g", "daemon off;"]
