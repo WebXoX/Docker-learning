@@ -8,5 +8,5 @@ RUN chmod +x setup.sh
 EXPOSE 443
 
 # CMD ["BASH"]
-CMD ["nginx", "-g", "daemon off;"]
-# CMD ["./setup.sh"]
+# CMD ["nginx", "-g", "daemon off;"]
+CMD ["./setup.sh"]
