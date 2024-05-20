@@ -1,5 +1,10 @@
 FROM alpine:3.18
 
+ARG ADM_PASS\
+    WP_USER_PASS\
+    DB_PASS\
+    MYSQL_ROOT_PASSWORD
+
 RUN apk add --no-cache \
     php \
     php-curl \

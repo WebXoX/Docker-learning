@@ -24,9 +24,9 @@ services:
       dockerfile: requirements/mariadb/Dockerfile
       args:
         DB_NAME: ${DB_NAME}
-        DB_ROOT: ${DB_ROOT}
+        MYSQL_ROOT_PASSWORD: /run/secrets/MYSQL_ROOT_PASSWORD
         DB_USER: ${DB_USER}
-        DB_PASS: ${DB_PASS}
+        DB_PASS: /run/secrets/db_password
     container_name: mariadb
     ports:
       - "3306:3306"
@@ -40,6 +40,11 @@ services:
     build:
       context: .
       dockerfile: requirements/wordpress/Dockerfile
+      args:
+        ADM_PASS: /run/secrets/ADM_PASS
+        MYSQL_ROOT_PASSWORD: /run/secrets/MYSQL_ROOT_PASSWORD
+        WP_USER_PASS: /run/secrets/WP_USER_PASS
+        DB_PASS: /run/secrets/db_password
     container_name: wordpress
     depends_on:
       - mariadb
@@ -50,20 +55,26 @@ services:
     restart: always
     env_file:
       - .env
-
 volumes:
   wp-volume:
     driver_opts:
       o: bind
       type: none
       device: ${HOME}/data/wordpress
-
   db-volume:
     driver_opts:
       o: bind
       type: none
       device: ${HOME}/data/mariadb
-
+secrets:
+  DB_PASS:
+    file: ../secrets/db_password.txt
+  MYSQL_ROOT_PASSWORD:
+    file: ../secrets/db_root_password.txt
+  ADM_PASS:
+    file: ../secrets/adm_pass.txt
+  WP_USER_PASS:
+    file: ../secrets/wp_pass.txt
 networks:
     inception:
         driver: bridge
