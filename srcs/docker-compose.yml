@@ -53,16 +53,16 @@ services:
 
 volumes:
   wp-volume:
-  #   driver_opts:
-  #     o: bind
-  #     type: none
-  #     device: ${HOME}/data/wordpress
+    driver_opts:
+      o: bind
+      type: none
+      device: ${HOME}/data/wordpress
 
   db-volume:
-  #   driver_opts:
-  #     o: bind
-  #     type: none
-  #     device: ${HOME}/data/mariadb
+    driver_opts:
+      o: bind
+      type: none
+      device: ${HOME}/data/mariadb
 
 networks:
     inception:
