@@ -1,51 +1,69 @@
 version: '3'
 
 services:
-  mariadb:
-    build: ./requirements/mariadb/
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - 3306:3306
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    networks:
-      - inception
-
-  wordpress:
-    build: ./requirements/wordpress/
-    depends_on:
-      - mariadb
-    ports:
-      - 9000:9000
-    volumes:
-      - wordpress_data:/var/www/
-    networks:
-      - inception
-    env_file:
-      - .env
-    restart: always
   nginx:
-    build: ./requirements/nginx
+    build:
+      context: .
+      dockerfile: requirements/nginx/Dockerfile
+    container_name: nginx
+    ports:
+      - "443:443"
     depends_on:
       - wordpress
-    restart: always
-    ports:
-      - 443:443
     networks:
       - inception
     volumes:
-      - wordpress_data:/var/www/
-networks:
-  inception:
-    driver: bridge  # Define network only once
+      - wp-volume:/var/www/
+    restart: always
+    env_file:
+      - .env
+
+  mariadb:
+    build:
+      context: .
+      dockerfile: requirements/mariadb/Dockerfile
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_ROOT: ${DB_ROOT}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    networks:
+      - inception
+    volumes:
+      - db-volume:/var/lib/mysql
+    restart: always
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: requirements/wordpress/Dockerfile
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    volumes:
+      - wp-volume:/var/www/
+    restart: always
+    env_file:
+      - .env
 
 volumes:
-  wordpress_data:
-      # o: bind  # Use bind mount functionality
-      # device: ${HOME}/data/wordpress  # Path on the host for WordPress data
+  wp-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: ${HOME}/data/wordpress
 
-  mariadb_data:
-      # o: bind  # Use bind mount functionality
-      # device: ${HOME}/data/mysql  # Separate path for MariaDB data (recommended)
+  db-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: ${HOME}/data/mariadb
+
+networks:
+    inception:
+        driver: bridge

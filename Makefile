@@ -6,10 +6,12 @@ YELLOW = \033[1;33m
 BLUE = \033[1;34m
 RESET = \033[0m
 
-all: $(VOLUME) build up
+all: volume build up
 
-$(VOLUME):
-	@if [ ! -d "${HOME}/data/"  ]; then mkdir -p ~/data/mariadb; mkdir -p ~/data/wordpress; fi
+volume:
+	@mkdir -p ~/data;
+	@mkdir -p ~/data/mariadb;
+	@mkdir -p ~/data/wordpress;
 
 build:	
 	@printf "$(BLUE)BUILDING$(RESET):\r\t\t\t\t\t\n"
@@ -40,7 +42,7 @@ log:
 
 clean: down 
 	@printf "$(YELLOW)CLEANING$(RESET):\r\t\t\t\t\t\n"
-	@ rm -rf ~/data/mariadb; rm -rf ~/data/wordpress;
+	@ sudo rm -rf ~/data/mariadb; sudo rm -rf ~/data/wordpress;
 	@printf "$(RED)CLEANED$(RESET):\r\t\t\t\t\t\n"
 
 fclean: clean 
