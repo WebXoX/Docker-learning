@@ -13,7 +13,7 @@ services:
     networks:
       - inception
     volumes:
-      - wp-volume:/var/www/
+      - wp-volume:/var/www/wordpress
     restart: always
     env_file:
       - .env
@@ -46,7 +46,7 @@ services:
     networks:
       - inception
     volumes:
-      - wp-volume:/var/www/
+      - wp-volume:/var/www/wordpress
     restart: always
     env_file:
       - .env

@@ -1,11 +1,5 @@
 FROM alpine:3.18
 
-
-# RUN DB_PASS=$(cat ${DB_PASS})\
-#     MYSQL_ROOT_PASSWORD=$(cat ${MYSQL_ROOT_PASSWORD})\
-#     WP_USER_PASS=$(cat ${WP_USER_PASS})\
-#     ADM_PASS=$(cat ${ADM_PASS})
-
 RUN apk add --no-cache \
     php \
     php-fpm \
@@ -32,7 +26,8 @@ RUN adduser -S www-data -G www-data && \
     sed -i "s|;listen.owner = nobody|listen.owner = www-data|g" /etc/php81/php-fpm.d/www.conf && \
     sed -i "s|;listen.group = www-data|listen.group = www-data|g" /etc/php81/php-fpm.d/www.conf
 
-    
+EXPOSE 9000
+
 COPY ./requirements/wordpress/tools/ /
 RUN chmod 777 setup.sh
 
