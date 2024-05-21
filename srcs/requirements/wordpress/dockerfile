@@ -5,6 +5,12 @@ ARG ADM_PASS\
     DB_PASS\
     MYSQL_ROOT_PASSWORD
 
+
+# RUN DB_PASS=$(cat ${DB_PASS})\
+#     MYSQL_ROOT_PASSWORD=$(cat ${MYSQL_ROOT_PASSWORD})\
+#     WP_USER_PASS=$(cat ${WP_USER_PASS})\
+#     ADM_PASS=$(cat ${ADM_PASS})
+
 RUN apk add --no-cache \
     php \
     php-curl \

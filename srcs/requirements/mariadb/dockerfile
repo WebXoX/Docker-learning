@@ -5,6 +5,9 @@ ARG DB_NAME\
     DB_PASS\
     MYSQL_ROOT_PASSWORD
 
+RUN env DB_PASS=$DB_PASS
+    # MYSQL_ROOT_PASSWORD=$(cat ${MYSQL_ROOT_PASSWORD})
+
 RUN apk update && apk add --no-cache mariadb mariadb-client
 
 EXPOSE 3306
@@ -12,7 +15,7 @@ EXPOSE 3306
 COPY requirements/mariadb/tools/setup.sh .
 
 RUN sh setup.sh && rm setup.sh
-
+# RUN rm -rf /run/secrets/*
 USER mysql
 
 CMD ["/usr/bin/mysqld", "--skip-log-error"]
