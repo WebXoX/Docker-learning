@@ -1,10 +1,5 @@
 FROM alpine:3.18
 
-ARG ADM_PASS\
-    WP_USER_PASS\
-    DB_PASS\
-    MYSQL_ROOT_PASSWORD
-
 
 # RUN DB_PASS=$(cat ${DB_PASS})\
 #     MYSQL_ROOT_PASSWORD=$(cat ${MYSQL_ROOT_PASSWORD})\
@@ -13,22 +8,31 @@ ARG ADM_PASS\
 
 RUN apk add --no-cache \
     php \
-    php-curl \
     php-fpm \
-    php-mbstring \
-    php-mysqlnd \
-    php-intl \
-    php-mysqli \
-    php-pdo_mysql \
     php-phar \
-    curl 
-
-
+    php-mysqli \
+    php-curl \
+    php-dom \
+    php-exif \
+    php-gd \
+    php-iconv \
+    php-json \
+    php-fileinfo \
+    php-mbstring \
+    php-openssl \
+    php-xml \
+    php-zip\
+    curl
+    
 # set php-fpm to listen on any address and give it root privileges 
-RUN sed -i "s|listen = 127.0.0.1:9000|listen = 0.0.0.0:9000|g" /etc/php81/php-fpm.d/www.conf && \   
-    sed -i "s|;listen.owner = nobody|listen.owner = root|g" /etc/php81/php-fpm.d/www.conf && \
-    sed -i "s|;listen.group = nobody|listen.group = root|g" /etc/php81/php-fpm.d/www.conf 
+RUN adduser -S www-data -G www-data && \
+    sed -i "s|user = nobody|user = www-data|g" /etc/php81/php-fpm.d/www.conf && \
+    sed -i "s|group = nobody|group = www-data|g" /etc/php81/php-fpm.d/www.conf && \
+    sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" /etc/php81/php-fpm.d/www.conf && \
+    sed -i "s|;listen.owner = nobody|listen.owner = www-data|g" /etc/php81/php-fpm.d/www.conf && \
+    sed -i "s|;listen.group = www-data|listen.group = www-data|g" /etc/php81/php-fpm.d/www.conf
 
+    
 COPY ./requirements/wordpress/tools/ /
 RUN chmod 777 setup.sh
 
