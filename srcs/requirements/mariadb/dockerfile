@@ -5,8 +5,6 @@ ARG DB_NAME\
     DB_PASS\
     MYSQL_ROOT_PASSWORD
 
-RUN env DB_PASS=$DB_PASS
-    # MYSQL_ROOT_PASSWORD=$(cat ${MYSQL_ROOT_PASSWORD})
 
 RUN apk update && apk add --no-cache mariadb mariadb-client
 
