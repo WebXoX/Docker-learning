@@ -50,7 +50,7 @@ fclean: clean
 	@docker network prune --force
 	@docker volume prune --force
 
-re: clean all
+re: fclean all
 
 maria:
 	@printf "$(GREEN)RUNNING MARIA$(RESET):\r\t\t\t\t\t\n"

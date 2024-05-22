@@ -13,7 +13,6 @@ EXPOSE 3306
 COPY requirements/mariadb/tools/setup.sh .
 
 RUN sh setup.sh && rm setup.sh
-# RUN rm -rf /run/secrets/*
 USER mysql
 
 CMD ["/usr/bin/mysqld", "--skip-log-error"]
